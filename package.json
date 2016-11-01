@@ -1,0 +1,30 @@
+{
+  "name": "exceptions-client",
+  "private": true,
+  "description": "A quick way to view your exceptions of the week",
+  "repository": "maletor/exceptions-relay",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "webpack",
+    "check": "flow check",
+    "lint": "eslint src",
+    "dev": "babel-node server"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.0",
+    "babel-loader": "^6.2.7",
+    "babel-preset-env": "^0.0.6",
+    "babel-preset-react": "^6.16.0",
+    "babel-relay-plugin": "0.9.3",
+    "babel-cli": "^6.18.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-relay": "0.9.3",
+    "react-router": "^3.0.0",
+    "react-router-relay": "^0.13.5",
+    "webpack": "1.13.3",
+    "eslint": "^3.9.0",
+    "flow-bin": "^0.34.0",
+    "webpack-dev-server": "1.16.2"
+  }
+}
