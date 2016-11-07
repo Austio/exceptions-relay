@@ -1,9 +1,9 @@
 {
   "plugins": [
-    "./plugins/babelRelayPlugin"
+    "react-relay"
   ],
   "presets": [
-    ["env", { "targets": { "node": 6.5 } }],
+    ["env", { "targets": { "chrome": "54" } }],
     "react"
   ]
 }

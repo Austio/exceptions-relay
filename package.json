@@ -1,30 +1,60 @@
 {
-  "name": "exceptions-client",
+  "name": "exceptions-relay",
   "private": true,
+  "license": "MIT",
   "description": "A quick way to view your exceptions of the week",
-  "repository": "maletor/exceptions-relay",
-  "version": "0.1.0",
-  "scripts": {
-    "build": "webpack",
-    "check": "flow check",
-    "lint": "eslint src",
-    "dev": "babel-node server"
+  "repository": {
+    "url": "git+https://github.com/maletor/exceptions-relay.git",
+    "type": "git"
   },
-  "devDependencies": {
-    "babel-core": "^6.18.0",
+  "bugs": {
+    "url": "https://github.com/maletor/exceptions-relay/issues"
+  },
+  "engines": {
+    "node": "^7.1.0"
+  },
+  "keywords": [
+    "exceptions",
+    "relay",
+    "graphql"
+  ],
+  "homepage": "https://exceptions.doximity.com",
+  "main": "src/index.js",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "webpack-dev-server -d --hot --inline --no-info --port 3000",
+    "build": "webpack ./build/bundle.js",
+    "start": "npm run build && pushstate-server build $PORT"
+  },
+  "author": "Ellis Berner <bernee@alum.rpi.edu>",
+  "contributors": [
+    "Ellis Berner <bernee@alum.rpi.edu>"
+  ],
+  "dependencies": {
+    "babel-core": "^6.0.0",
     "babel-loader": "^6.2.7",
-    "babel-preset-env": "^0.0.6",
-    "babel-preset-react": "^6.16.0",
-    "babel-relay-plugin": "0.9.3",
-    "babel-cli": "^6.18.0",
+    "babel-plugin-react-relay": "0.9.3-3",
+    "babel-preset-env": "^0.0.7",
+    "babel-preset-react": "^6.11.1",
+    "babel-relay-plugin": "^0.9.3",
+    "css-loader": "^0.25.0",
+    "html-webpack-plugin": "^2.24.1",
+    "pushstate-server": "^2.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-relay": "0.9.3",
     "react-router": "^3.0.0",
     "react-router-relay": "^0.13.5",
-    "webpack": "1.13.3",
-    "eslint": "^3.9.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.0",
+    "eslint": "^3.9.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-flowtype": "^2.25.0",
+    "eslint-plugin-react": "^6.6.0",
     "flow-bin": "^0.34.0",
-    "webpack-dev-server": "1.16.2"
+    "webpack-dev-server": "^1.14.1"
   }
 }
