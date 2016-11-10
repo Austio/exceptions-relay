@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router";
 
 class DeveloperRow extends React.Component {
-  get percentColor() {
+  get percentColor(): string {
     if (this.percent > 80) {
       return "text-success";
     } else if (this.percent > 70) {
@@ -13,14 +13,14 @@ class DeveloperRow extends React.Component {
       return "text-danger";
     }
   }
-  get date() {
+  get date(): string {
     return this.props.developer.lastBug.edges.map(edge => {
       const options = { day: "numeric", month: "short", hour: "numeric" };
       const date = new Date(edge.node.createdAt);
       return date.toLocaleString("en-US", options);
     });
   }
-  get percent() {
+  get percent(): number {
     if (this.props.developer.bugs.totalCount === 0) { return 0; }
     return (this.props.developer.completedBugs.totalCount / this.props.developer.bugs.totalCount) * 100;
   }

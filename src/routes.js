@@ -2,16 +2,16 @@
 
 import React from "react";
 import { IndexRoute, Route } from "react-router";
-import App from "./components/App.jsx";
-import BatchList from "./components/BatchList.jsx";
-import Bug from "./components/Bug.jsx";
-import Callback from "./components/Callback.jsx";
-import Developer from "./components/Developer.jsx";
-import DeveloperList from "./components/DeveloperList.jsx";
-import Login from "./components/Login.jsx";
-import NewBatch from "./components/NewBatch.jsx";
-import NewBug from "./components/NewBug.jsx";
-import NewDeveloper from "./components/NewDeveloper.jsx";
+import App from "./components/App";
+import BatchList from "./components/BatchList";
+import Bug from "./components/Bug";
+import Callback from "./components/Callback";
+import Developer from "./components/Developer";
+import DeveloperList from "./components/DeveloperList";
+import Login from "./components/Login";
+import NewBatch from "./components/NewBatch";
+import NewBug from "./components/NewBug";
+import NewDeveloper from "./components/NewDeveloper";
 import NodeQuery from "./queries/NodeQuery";
 import RootQuery from "./queries/RootQuery";
 

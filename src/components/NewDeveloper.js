@@ -2,7 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import CreateDeveloperMutation from "../mutations/CreateDeveloper.jsx";
+import CreateDeveloperMutation from "../mutations/CreateDeveloper";
 
 class NewDeveloper extends React.Component {
   _handleSubmit(e) {
@@ -35,11 +35,13 @@ class NewDeveloper extends React.Component {
         <fieldset className="form-group">
           <label htmlFor="name">Name</label>
           <input id="name" required type="text" className="form-control" ref="newDeveloperName" />
+          <small className="text-muted">Full name</small>
         </fieldset>
 
         <fieldset className="form-group">
           <label htmlFor="githubUsername">GitHub Username</label>
           <input id="githubUsername" required type="text" className="form-control" ref="newDeveloperGithubUsername" />
+          <small className="text-muted">Links authenticated users to developers</small>
         </fieldset>
 
         <fieldset className="form-group">
@@ -49,6 +51,7 @@ class NewDeveloper extends React.Component {
               <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
             )}
           </select>
+          <small className="text-muted">The person ultimately responsible for making sure a bug is assigned</small>
         </fieldset>
 
         <button type="submit" className="btn btn-primary">Submit</button>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import CreateBatchMutation from "../mutations/CreateBatch.jsx";
+import CreateBatchMutation from "../mutations/CreateBatch";
 
 class NewBatch extends React.Component {
   _handleSubmit(e) {
@@ -43,6 +43,7 @@ class NewBatch extends React.Component {
               <option value={edge.node.id} key={edge.node.id}>{edge.node.year}</option>
             )}
           </select>
+          <small className="text-muted">Explicitly maps groups of batches</small>
         </fieldset>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>

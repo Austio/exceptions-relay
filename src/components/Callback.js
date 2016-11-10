@@ -2,7 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import CreateAccessTokenMutation from "../mutations/CreateAccessToken.jsx";
+import CreateAccessTokenMutation from "../mutations/CreateAccessToken";
 
 class DeveloperList extends React.Component {
   render() {

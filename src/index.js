@@ -9,7 +9,7 @@ import "./index.css";
 import routes from "./routes";
 
 Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer("https://dox-exceptions-api.herokuapp.com/graphql", {
+  new Relay.DefaultNetworkLayer("http://localhost:4000/graphql", {
     headers: {
       Authorization: `Bearer ${localStorage.token}`
     }

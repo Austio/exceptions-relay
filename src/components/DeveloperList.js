@@ -2,7 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import DeveloperRow from "./DeveloperRow.jsx";
+import DeveloperRow from "./DeveloperRow";
 import { Link } from "react-router";
 
 class DeveloperList extends React.Component {

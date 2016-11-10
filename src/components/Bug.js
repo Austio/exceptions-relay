@@ -2,8 +2,8 @@
 
 import React from "react";
 import Relay from "react-relay";
-import DeleteBugMutation from "../mutations/DeleteBug.jsx";
-import UpdateBugMutation from "../mutations/UpdateBug.jsx";
+import DeleteBugMutation from "../mutations/DeleteBug";
+import UpdateBugMutation from "../mutations/UpdateBug";
 
 class Bug extends React.Component {
   _handleCompleted() {

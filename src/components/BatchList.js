@@ -2,7 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import Batch from "./Batch.jsx";
+import Batch from "./Batch";
 import { Link } from "react-router";
 
 class BatchList extends React.Component {

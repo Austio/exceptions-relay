@@ -24,6 +24,8 @@
   "scripts": {
     "dev": "webpack-dev-server -d --hot --inline --no-info --port 3000",
     "build": "webpack ./build/bundle.js",
+    "lint": "eslint src",
+    "check": "flow check",
     "start": "npm run build && pushstate-server build $PORT"
   },
   "author": "Ellis Berner <bernee@alum.rpi.edu>",

@@ -2,8 +2,7 @@
 
 import React from "react";
 import Relay from "react-relay";
-import CreateBugMutation from "../mutations/CreateBug.jsx";
-import BatchRow from "./BatchRow.jsx";
+import CreateBugMutation from "../mutations/CreateBug";
 
 class NewBug extends React.Component {
   _handleSubmit(e) {
@@ -25,7 +24,7 @@ class NewBug extends React.Component {
       new CreateBugMutation({
         reference: this.refs.newBugReference.value,
         assigneeId: this.refs.newBugDeveloper.value,
-        batchId: this.refs.newBugBatch.value,
+        teamId: this.refs.newBugTeam.value,
       }), { onSuccess }
     );
   }
@@ -39,8 +38,18 @@ class NewBug extends React.Component {
           <small className="text-muted">Pivotal Tracker or Bugsnag link</small>
         </fieldset>
         <fieldset className="form-group">
+          <label htmlFor="team">Team</label>
+          <select required ref="newBugTeam" className="form-control form-control-lg" id="team">
+            {this.props.query.teams.edges.map(edge =>
+              <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
+            )}
+          </select>
+          <small className="text-muted">Team designation is required</small>
+        </fieldset>
+        <fieldset className="form-group">
           <label htmlFor="developer">Assignee</label>
-          <select required ref="newBugDeveloper" className="form-control form-control-lg" id="developer">
+          <select ref="newBugDeveloper" className="form-control form-control-lg" id="developer">
+            <option />
             <optgroup label="Assignees">
               {this.props.query.developers.edges.filter(e => e.node.isAssignee).map(edge =>
                 <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
@@ -52,16 +61,8 @@ class NewBug extends React.Component {
               )}
             </optgroup>
           </select>
+          <small className="text-muted">Assignee designation is optional but recommended</small>
         </fieldset>
-        <fieldset className="form-group">
-          <label htmlFor="batch">Batch</label>
-          <select required ref="newBugBatch" className="form-control form-control-lg" id="batch">
-            {this.props.query.batches.edges.map(edge =>
-              <BatchRow batch={edge.node} key={edge.node.id} />
-            )}
-          </select>
-        </fieldset>
-
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
@@ -81,11 +82,11 @@ export default Relay.createContainer(NewBug, {
   fragments: {
     query: () => Relay.QL`
       fragment on Query {
-        batches(first: $first) {
+        teams(first: $first) {
           edges {
             node {
               id
-              startDate
+              name
             }
           },
         }
@@ -102,5 +103,3 @@ export default Relay.createContainer(NewBug, {
     `,
   },
 });
-
-
