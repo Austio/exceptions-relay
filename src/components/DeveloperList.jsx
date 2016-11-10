@@ -25,6 +25,7 @@ class DeveloperList extends React.Component {
           <thead>
             <tr>
               <th>Developer</th>
+              <th>Team</th>
               <th>Completed</th>
               <th>Total</th>
               <th>Percentage</th>
@@ -58,6 +59,9 @@ export default Relay.createContainer(DeveloperList, {
             node {
               id
               name
+              team {
+                name
+              }
               assignor {
                 id
                 name

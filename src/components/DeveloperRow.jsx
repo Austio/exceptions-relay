@@ -28,6 +28,7 @@ class DeveloperRow extends React.Component {
     return (
       <tr>
         <td><Link to={`/developers/${this.props.developer.id}`}>{this.props.developer.name}</Link></td>
+        <td>{this.props.developer.team.name}</td>
         <td>{this.props.developer.completedBugs.totalCount}</td>
         <td>{this.props.developer.bugs.totalCount}</td>
         <td className={this.percentColor}>{this.percent.toFixed(2) + "%"}</td>
