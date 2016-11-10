@@ -57,9 +57,11 @@ export default Relay.createContainer(BatchList, {
                   node {
                     id
                     assignor {
+                      id
                       name
                     }
                     assignee {
+                      id
                       name
                     }
                     reference
