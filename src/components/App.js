@@ -44,9 +44,7 @@ class App extends React.Component {
         <footer className="footer">
           <div className="container">
             <ul className="nav nav-inline float-xs-left">
-              <span className="text-muted">
-                <i className="fa fa-space-shuttle fa-lg"></i>
-              </span>
+              <i className="text-muted fa fa-bug fa-lg"></i>
             </ul>
             <ul className="nav nav-inline float-xs-right">
               <li className="nav-item">

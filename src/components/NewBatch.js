@@ -45,6 +45,38 @@ class NewBatch extends React.Component {
           </select>
           <small className="text-muted">Explicitly maps groups of batches</small>
         </fieldset>
+        {this.props.query.bugs.edges.map(edge =>
+          <section key={edge.node.id}>
+            <fieldset className="form-group row">
+              <label className="col-xs-2 col-form-label">Assignor</label>
+              <div className="col-xs-10">
+                <p className="form-control-static mb-0">{edge.node.assignor.name}</p>
+              </div>
+            </fieldset>
+            <fieldset className="form-group row">
+              <label className="col-xs-2 col-form-label">Team</label>
+              <div className="col-xs-10">
+                <p className="form-control-static mb-0">{edge.node.team.name}</p>
+              </div>
+            </fieldset>
+            <fieldset className="form-group row">
+              <label className="col-xs-2 col-form-label" htmlFor="assignee">Assignee</label>
+              <div className="col-xs-10">
+                <select required ref="newBatchAssignee" className="form-control" id="assignee">
+                  {this.props.query.developers.edges.filter(developer => developer.node.team.id === edge.node.team.id).map(edge =>
+                    <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
+                  )}
+                </select>
+              </div>
+            </fieldset>
+            <fieldset className="form-group row">
+              <label className="col-xs-2 col-form-label">Reference</label>
+              <div className="col-xs-10">
+                <p className="form-control-static mb-0">{edge.node.reference}</p>
+              </div>
+            </fieldset>
+          </section>
+        )}
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
@@ -54,7 +86,7 @@ class NewBatch extends React.Component {
 NewBatch.propTypes = {
   query: React.PropTypes.any,
   router: React.PropTypes.any,
-  relay: React.PropTypes.any
+  relay: React.PropTypes.any,
 };
 
 export default Relay.createContainer(NewBatch, {
@@ -64,10 +96,31 @@ export default Relay.createContainer(NewBatch, {
   fragments: {
     query: () => Relay.QL`
       fragment on Query {
-        batches(first: 1) {
+        developers(first: $first) {
           edges {
             node {
               id
+              name
+              team {
+                id
+                name
+              }
+            }
+          }
+        }
+        bugs(find: { unassigned: true }) {
+          edges {
+            node {
+              id
+              assignor {
+                id
+                name
+              }
+              team {
+                id
+                name
+              }
+              reference
             }
           }
         }
