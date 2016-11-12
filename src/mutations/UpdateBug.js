@@ -1,20 +1,22 @@
 import Relay from "react-relay";
 
-export default class CreateAccessTokenMutation extends Relay.Mutation {
+export default class UpdateBug extends Relay.Mutation {
   getMutation() {
     return Relay.QL`mutation { updateBug }`;
   }
 
   getVariables() {
-    return { id: this.props.id, completed: this.props.completed };
+    return {
+      id: this.props.id,
+      completed: this.props.completed
+    };
   }
 
   getFatQuery() {
     return Relay.QL`
       fragment on updateBugPayload {
+        viewer
         bug
-        batch
-        assignee
       }
     `;
   }
@@ -23,9 +25,12 @@ export default class CreateAccessTokenMutation extends Relay.Mutation {
     return [{
       type: "FIELDS_CHANGE",
       fieldIDs: {
+        viewer: this.props.viewer.id,
+      },
+    }, {
+      type: "FIELDS_CHANGE",
+      fieldIDs: {
         bug: this.props.id,
-        batch: this.props.batchId,
-        assignee: this.props.assigneeId,
       },
     }];
   }

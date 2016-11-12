@@ -15,18 +15,16 @@ class CreateBatch extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on createBatchPayload {
-        batch
+        viewer
       }
     `;
   }
 
   getConfigs() {
     return [{
-      type: "RANGE_ADD",
-      connectionName: "batches",
-      edgeName: "batchEdge",
-      rangeBehaviors: {
-        "": "append",
+      type: "FIELDS_CHANGE",
+      fieldIDs: {
+        viewer: this.props.viewer.id,
       }
     }];
   }

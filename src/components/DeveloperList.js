@@ -32,7 +32,7 @@ class DeveloperList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.query.developers.edges.map(edge =>
+            {this.props.viewer.query.developers.edges.map(edge =>
               <DeveloperRow developer={edge.node} key={edge.node.id}/>
             )}
           </tbody>
@@ -43,7 +43,7 @@ class DeveloperList extends React.Component {
 }
 
 DeveloperList.propTypes = {
-  query: React.PropTypes.any
+  viewer: React.PropTypes.any
 };
 
 export default Relay.createContainer(DeveloperList, {
@@ -52,28 +52,30 @@ export default Relay.createContainer(DeveloperList, {
     first: 100
   },
   fragments: {
-    query: () => Relay.QL`
-      fragment on Query {
-        developers(first: $first, orderBy: { direction: ASC, field: NAME }) {
-          edges {
-            node {
-              id
-              name
-              team {
-                name
-              }
-              assignor {
+    viewer: () => Relay.QL`
+      fragment on Developer {
+        query {
+          developers(first: $first, orderBy: { direction: ASC, field: NAME }) {
+            edges {
+              node {
                 id
                 name
+                team {
+                  name
+                }
+                assignor {
+                  id
+                  name
+                }
+                bugs(year: $year) {
+                  totalCount
+                }
+                completedBugs: bugs(isCompleted: true, year: $year) {
+                  totalCount
+                }
               }
-              bugs(year: $year) {
-                totalCount
-              }
-              completedBugs: bugs(isCompleted: true, year: $year) {
-                totalCount
-              }
-            }
-          },
+            },
+          }
         }
       }
     `,

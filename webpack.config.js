@@ -1,23 +1,28 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    publicPath: '/'
+    publicPath: "/"
   },
   module: {
     loaders: [{
       test: /\.css/,
-      loader: 'style!css'
+      loader: "style!css"
     }, {
       test: /\.js$/,
-      loader: 'babel',
+      loader: "babel",
       exclude: /node_modules/
     }]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env": { GRAPHQL_ENDPOINT: JSON.stringify(process.env.GRAPHQL_ENDPOINT) },
+    }),
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: "public/index.html"
     })
   ]
 };

@@ -6,13 +6,15 @@ export default class CreateAccessTokenMutation extends Relay.Mutation {
   }
 
   getVariables() {
-    return { code: this.props.code, };
+    return {
+      code: this.props.code,
+    };
   }
 
   getFatQuery() {
     return Relay.QL`
       fragment on createAccessTokenPayload {
-        accessToken { accessToken }
+        accessToken
       }
     `;
   }
@@ -22,9 +24,9 @@ export default class CreateAccessTokenMutation extends Relay.Mutation {
       type: "REQUIRED_CHILDREN",
       children: [
         Relay.QL`
-        fragment on createAccessTokenPayload {
-          accessToken { accessToken }
-        }
+          fragment on createAccessTokenPayload {
+            accessToken { accessToken }
+          }
         `,
       ],
     }];

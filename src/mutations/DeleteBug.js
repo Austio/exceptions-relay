@@ -12,8 +12,7 @@ export default class CreateAccessTokenMutation extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on deleteBugPayload {
-        batch
-        assignee
+        viewer
       }
     `;
   }
@@ -22,8 +21,7 @@ export default class CreateAccessTokenMutation extends Relay.Mutation {
     return [{
       type: "FIELDS_CHANGE",
       fieldIDs: {
-        batch: this.props.batchId,
-        assignee: this.props.assigneeId
+        viewer: this.props.viewer.id,
       },
     }];
   }

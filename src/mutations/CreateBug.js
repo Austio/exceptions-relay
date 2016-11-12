@@ -16,18 +16,16 @@ export default class CreateBug extends Relay.Mutation {
   getFatQuery() {
     return Relay.QL`
       fragment on createBugPayload {
-        bug
+        viewer
       }
     `;
   }
 
   getConfigs() {
     return [{
-      type: "RANGE_ADD",
-      connectionName: "bugs",
-      edgeName: "bugEdge",
-      rangeBehaviors: {
-        "": "append",
+      type: "FIELDS_CHANGE",
+      fieldIDs: {
+        viewer: this.props.viewer.id,
       }
     }];
   }

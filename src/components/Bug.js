@@ -7,24 +7,34 @@ import UpdateBugMutation from "../mutations/UpdateBug";
 
 class Bug extends React.Component {
   _handleCompleted() {
+    const onSuccess = () => {
+      this.props.router.push("/batches");
+    };
+
     this.props.relay.commitUpdate(
       new UpdateBugMutation({
         id: this.props.node.id,
         assigneeId: this.props.node.assignee.id,
         batchId: this.props.node.batch.id,
+        viewer: this.props.viewer,
         completed: true
-      })
+      }), { onSuccess }
     );
   }
 
   _handleIncomplete() {
+    const onSuccess = () => {
+      this.props.router.push("/batches");
+    };
+
     this.props.relay.commitUpdate(
       new UpdateBugMutation({
         id: this.props.node.id,
         assigneeId: this.props.node.assignee.id,
         batchId: this.props.node.batch.id,
+        viewer: this.props.viewer,
         completed: false
-      })
+      }), { onSuccess }
     );
   }
 
@@ -37,6 +47,7 @@ class Bug extends React.Component {
       new DeleteBugMutation({
         id: this.props.node.id,
         batchId: this.props.node.batch.id,
+        viewer: this.props.viewer,
         assigneeId: this.props.node.assignee.id,
       }), { onSuccess }
     );
@@ -72,9 +83,15 @@ Bug.propTypes = {
 
 export default Relay.createContainer(Bug, {
   initialVariables: {
-    first: 100
+    first: 100,
+    id: null,
   },
   fragments: {
+    viewer: () => Relay.QL`
+      fragment on Developer {
+        id
+      }
+    `,
     node: () => Relay.QL`
       fragment on Bug {
         id

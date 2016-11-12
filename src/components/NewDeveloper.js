@@ -8,16 +8,8 @@ class NewDeveloper extends React.Component {
   _handleSubmit(e) {
     e.preventDefault();
 
-    const onReadyStateChange = (state) => {
-      if (state.done) {
-        this.props.router.push("/");
-      }
-    };
-
-    // If Relay isn't going to work to update the client side graph without a
-    // node we will just update manually.
     const onSuccess = () => {
-      this.props.relay.forceFetch({}, onReadyStateChange);
+      this.props.router.push("/");
     };
 
     this.props.relay.commitUpdate(
@@ -25,6 +17,8 @@ class NewDeveloper extends React.Component {
         name: this.refs.newDeveloperName.value,
         githubUsername: this.refs.newDeveloperGithubUsername.value,
         assignorId: this.refs.newDeveloperAssignor.value,
+        teamId: this.refs.newDeveloperTeam.value,
+        viewer: this.props.viewer
       }), { onSuccess }
     );
   }
@@ -47,11 +41,21 @@ class NewDeveloper extends React.Component {
         <fieldset className="form-group">
           <label htmlFor="assignor">Assignor</label>
           <select required ref="newDeveloperAssignor" className="form-control form-control-lg" id="assignor">
-            {this.props.query.developers.edges.map(edge =>
+            {this.props.viewer.query.developers.edges.map(edge =>
               <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
             )}
           </select>
           <small className="text-muted">The person ultimately responsible for making sure a bug is assigned</small>
+        </fieldset>
+
+        <fieldset className="form-group">
+          <label htmlFor="team">Team</label>
+          <select required ref="newDeveloperTeam" className="form-control form-control-lg" id="team">
+            {this.props.viewer.query.teams.edges.map(edge =>
+              <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
+            )}
+          </select>
+          <small className="text-muted">The team the developer belongs to</small>
         </fieldset>
 
         <button type="submit" className="btn btn-primary">Submit</button>
@@ -61,7 +65,7 @@ class NewDeveloper extends React.Component {
 }
 
 NewDeveloper.propTypes = {
-  query: React.PropTypes.any,
+  viewer: React.PropTypes.any,
   router: React.PropTypes.any,
   relay: React.PropTypes.any
 };
@@ -71,15 +75,26 @@ export default Relay.createContainer(NewDeveloper, {
     first: 100
   },
   fragments: {
-    query: () => Relay.QL`
-      fragment on Query {
-        developers(first: $first, orderBy: { direction: ASC, field: NAME }) {
-          edges {
-            node {
-              id
-              name
+    viewer: () => Relay.QL`
+      fragment on Developer {
+        id
+        query {
+          teams(first: $first, orderBy: { direction: ASC, field: NAME }) {
+            edges {
+              node {
+                id
+                name
+              }
             }
-          },
+          }
+          developers(first: $first, orderBy: { direction: ASC, field: NAME }) {
+            edges {
+              node {
+                id
+                name
+              }
+            },
+          }
         }
       }
     `,

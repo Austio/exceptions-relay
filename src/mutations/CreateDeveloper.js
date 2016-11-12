@@ -10,24 +10,24 @@ class CreateDeveloper extends Relay.Mutation {
       name: this.props.name,
       githubUsername: this.props.githubUsername,
       assignorId: this.props.assignorId,
+      teamId: this.props.teamId,
     };
   }
 
   getFatQuery() {
     return Relay.QL`
-      fragment on createDeveloperPayload @relay(pattern: true) {
-        developers
-        developerEdge
+      fragment on createDeveloperPayload {
+        viewer
       }
     `;
   }
 
   getConfigs() {
     return [{
-      type: "RANGE_ADD",
-      connectionName: "developers",
-      edgeName: "developerEdge",
-      rangeBehaviors: {}
+      type: "FIELDS_CHANGE",
+      fieldIDs: {
+        viewer: this.props.viewer.id,
+      }
     }];
   }
 }

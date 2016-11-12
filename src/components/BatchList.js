@@ -7,7 +7,7 @@ import { Link } from "react-router";
 
 class BatchList extends React.Component {
   get nextPageClass() {
-    if (this.props.query.batches.pageInfo.hasNextPage) {
+    if (this.props.viewer.query.batches.pageInfo.hasNextPage) {
       return "page-item";
     } else {
       return "page-item disabled";
@@ -16,13 +16,13 @@ class BatchList extends React.Component {
   render() {
     return (
       <section>
-        {this.props.query.batches.edges.map(edge =>
+        {this.props.viewer.query.batches.edges.map(edge =>
           <Batch batch={edge.node} key= {edge.node.id} />
         )}
         <nav aria-label="Page navigation">
           <ul className="pagination float-xs-right">
             <li className={this.nextPageClass}>
-              <Link to={{ pathname: "batches", query: { after: this.props.query.batches.pageInfo.endCursor } }} className="page-link">Older</Link>
+              <Link to={{ pathname: "batches", query: { after: this.props.viewer.query.batches.pageInfo.endCursor } }} className="page-link">Older</Link>
             </li>
           </ul>
         </nav>
@@ -32,7 +32,7 @@ class BatchList extends React.Component {
 }
 
 BatchList.propTypes = {
-  query: React.PropTypes.any
+  viewer: React.PropTypes.any
 };
 
 export default Relay.createContainer(BatchList, {
@@ -40,37 +40,39 @@ export default Relay.createContainer(BatchList, {
     after: null
   },
   fragments: {
-    query: () => Relay.QL`
-      fragment on Query {
-        batches(first: 1, after: $after) {
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          edges {
-            node {
-              id
-              startDate
-              bugs(first: 100, orderBy: { field: CREATED_AT, direction: ASC }) {
-                totalCount
-                edges {
-                  node {
-                    id
-                    assignor {
+    viewer: () => Relay.QL`
+      fragment on Developer {
+        query {
+          batches(first: 1, after: $after) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            edges {
+              node {
+                id
+                startDate
+                bugs(first: 100, orderBy: { field: CREATED_AT, direction: ASC }) {
+                  totalCount
+                  edges {
+                    node {
                       id
-                      name
+                      assignor {
+                        id
+                        name
+                      }
+                      assignee {
+                        id
+                        name
+                      }
+                      reference
+                      completedAt
                     }
-                    assignee {
-                      id
-                      name
-                    }
-                    reference
-                    completedAt
                   }
                 }
               }
-            }
-          },
+            },
+          }
         }
       }
     `,
