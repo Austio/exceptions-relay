@@ -37,13 +37,15 @@ BatchList.propTypes = {
 
 export default Relay.createContainer(BatchList, {
   initialVariables: {
-    after: null
+    after: null,
+    batchLimit: 1,
+    bugsLimit: 100,
   },
   fragments: {
     viewer: () => Relay.QL`
       fragment on Developer {
         query {
-          batches(first: 1, after: $after) {
+          batches(first: $batchLimit, after: $after) {
             pageInfo {
               endCursor
               hasNextPage
@@ -52,7 +54,7 @@ export default Relay.createContainer(BatchList, {
               node {
                 id
                 startDate
-                bugs(first: 100, orderBy: { field: CREATED_AT, direction: ASC }) {
+                bugs(first: $bugsLimit, orderBy: { field: CREATED_AT, direction: ASC }) {
                   totalCount
                   edges {
                     node {

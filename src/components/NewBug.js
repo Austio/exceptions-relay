@@ -17,6 +17,7 @@ class NewBug extends React.Component {
         reference: this.refs.newBugReference.value,
         assigneeId: this.refs.newBugDeveloper.value,
         teamId: this.refs.newBugTeam.value,
+        batchId: this.refs.newBugBatch.value,
         viewer: this.props.viewer,
       }), { onSuccess }
     );
@@ -56,6 +57,16 @@ class NewBug extends React.Component {
           </select>
           <small className="text-muted">Assignee designation is optional but recommended</small>
         </fieldset>
+        <fieldset className="form-group">
+          <label htmlFor="batch">Batch</label>
+          <select ref="newBugBatch" className="form-control form-control-lg" id="batch">
+            <option />
+            {this.props.viewer.query.batches.edges.map(edge =>
+              <option value={edge.node.id} key={edge.node.id}>{edge.node.startDate.toLocaleString("en-US", { day: "numeric", month: "short", hour: "numeric" })}</option>
+            )}
+          </select>
+          <small className="text-muted">Omitting will make the bug available for assignment as early as the next batch</small>
+        </fieldset>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
     );
@@ -75,8 +86,17 @@ export default Relay.createContainer(NewBug, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Developer {
+        id
         query {
-          teams(first: $first) {
+          batches(first: $first) {
+            edges {
+              node {
+                id
+                startDate
+              }
+            },
+          },
+          teams(first: $first, orderBy: { direction: ASC, field: NAME }) {
             edges {
               node {
                 id

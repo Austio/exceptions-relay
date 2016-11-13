@@ -5,6 +5,11 @@ import Relay from "react-relay";
 import CreateBatchMutation from "../mutations/CreateBatch";
 
 class NewBatch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.newBugs = [];
+  }
+
   _handleSubmit(e) {
     e.preventDefault();
 
@@ -17,6 +22,9 @@ class NewBatch extends React.Component {
         startDate: this.refs.newBatchStartDate.value,
         termId: this.refs.newBatchTermId.value,
         viewer: this.props.viewer,
+        bugs: this.newBugs.map(bugInput => {
+          return { id: bugInput.id, assigneeId: bugInput.input.value };
+        }),
       }), { onSuccess }
     );
   }
@@ -55,10 +63,17 @@ class NewBatch extends React.Component {
             <fieldset className="form-group row">
               <label className="col-xs-2 col-form-label" htmlFor="assignee">Assignee</label>
               <div className="col-xs-10">
-                <select required ref="newBatchAssignee" className="form-control" id="assignee">
-                  {this.props.viewer.query.developers.edges.filter(developer => developer.node.team.id === edge.node.team.id).map(edge =>
-                    <option value={edge.node.id} key={edge.node.id}>{edge.node.name}</option>
-                  )}
+                <select required ref={(input) => this.newBugs.push({ id: edge.node.id, input: input })} defaultValue={edge.node.assignee && edge.node.assignee.id} className="form-control" id="assignee">
+                  <optgroup label="Team Members">
+                    {this.props.viewer.query.developers.edges.filter(developer => developer.node.team.id === edge.node.team.id).map(developerEdge =>
+                      <option value={developerEdge.node.id} key={developerEdge.node.id}>{developerEdge.node.name}</option>
+                    )}
+                  </optgroup>
+                  <optgroup label="Others">
+                    {this.props.viewer.query.developers.edges.filter(developer => developer.node.team.id !== edge.node.team.id).map(developerEdge =>
+                      <option value={developerEdge.node.id} key={developerEdge.node.id}>{developerEdge.node.name}</option>
+                    )}
+                  </optgroup>
                 </select>
               </div>
             </fieldset>
@@ -84,14 +99,15 @@ NewBatch.propTypes = {
 
 export default Relay.createContainer(NewBatch, {
   initialVariables: {
-    first: 100
+    first: 100,
+    unassigned: true,
   },
   fragments: {
     viewer: () => Relay.QL`
       fragment on Developer {
         id
         query {
-          developers(first: $first) {
+          developers(first: $first, orderBy: { field: NAME, direction: ASC }) {
             edges {
               node {
                 id
@@ -103,13 +119,16 @@ export default Relay.createContainer(NewBatch, {
               }
             }
           }
-          bugs(find: { unassigned: true }) {
+          bugs(first: $first, unassigned: $unassigned) {
             edges {
               node {
                 id
                 assignor {
                   id
                   name
+                }
+                assignee {
+                  id
                 }
                 team {
                   id

@@ -49,7 +49,8 @@ DeveloperList.propTypes = {
 export default Relay.createContainer(DeveloperList, {
   initialVariables: {
     year: null,
-    first: 100
+    first: 100,
+    isCompleted: true,
   },
   fragments: {
     viewer: () => Relay.QL`
@@ -70,7 +71,7 @@ export default Relay.createContainer(DeveloperList, {
                 bugs(year: $year) {
                   totalCount
                 }
-                completedBugs: bugs(isCompleted: true, year: $year) {
+                completedBugs: bugs(isCompleted: $isCompleted, year: $year) {
                   totalCount
                 }
               }

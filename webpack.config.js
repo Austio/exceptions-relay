@@ -22,7 +22,8 @@ module.exports = {
       "process.env": { GRAPHQL_ENDPOINT: JSON.stringify(process.env.GRAPHQL_ENDPOINT) },
     }),
     new HtmlWebpackPlugin({
-      template: "public/index.html"
+      template: "public/index.html",
+      favicon: "public/favicon.ico"
     })
   ]
 };

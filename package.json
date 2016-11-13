@@ -22,7 +22,7 @@
   "main": "src/index.js",
   "version": "1.0.0",
   "scripts": {
-    "dev": "webpack-dev-server -d --hot --inline --port 3000",
+    "dev": "webpack-dev-server -d --hot --history-api-fallback --inline --port 3000",
     "build": "webpack ./build/bundle.js",
     "lint": "eslint src",
     "check": "flow check",

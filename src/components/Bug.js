@@ -14,8 +14,6 @@ class Bug extends React.Component {
     this.props.relay.commitUpdate(
       new UpdateBugMutation({
         id: this.props.node.id,
-        assigneeId: this.props.node.assignee.id,
-        batchId: this.props.node.batch.id,
         viewer: this.props.viewer,
         completed: true
       }), { onSuccess }
@@ -30,8 +28,6 @@ class Bug extends React.Component {
     this.props.relay.commitUpdate(
       new UpdateBugMutation({
         id: this.props.node.id,
-        assigneeId: this.props.node.assignee.id,
-        batchId: this.props.node.batch.id,
         viewer: this.props.viewer,
         completed: false
       }), { onSuccess }
@@ -46,9 +42,7 @@ class Bug extends React.Component {
     this.props.relay.commitUpdate(
       new DeleteBugMutation({
         id: this.props.node.id,
-        batchId: this.props.node.batch.id,
         viewer: this.props.viewer,
-        assigneeId: this.props.node.assignee.id,
       }), { onSuccess }
     );
   }
@@ -82,10 +76,6 @@ Bug.propTypes = {
 };
 
 export default Relay.createContainer(Bug, {
-  initialVariables: {
-    first: 100,
-    id: null,
-  },
   fragments: {
     viewer: () => Relay.QL`
       fragment on Developer {

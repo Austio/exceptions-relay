@@ -10,6 +10,7 @@ export default class CreateBug extends Relay.Mutation {
       reference: this.props.reference,
       assigneeId: this.props.assigneeId,
       teamId: this.props.teamId,
+      batchId: this.props.batchId,
     };
   }
 

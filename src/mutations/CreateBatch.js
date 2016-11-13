@@ -9,6 +9,7 @@ class CreateBatch extends Relay.Mutation {
     return {
       startDate: this.props.startDate,
       termId: this.props.termId,
+      bugs: this.props.bugs,
     };
   }
 
