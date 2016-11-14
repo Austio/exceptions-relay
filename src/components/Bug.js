@@ -70,6 +70,7 @@ class Bug extends React.Component {
 }
 
 Bug.propTypes = {
+  viewer: React.PropTypes.any,
   node: React.PropTypes.any,
   relay: React.PropTypes.any,
   router: React.PropTypes.any
